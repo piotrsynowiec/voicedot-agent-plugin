@@ -13,9 +13,10 @@ const fail = (message) => { throw new Error(message); };
 export function deriveCandidate() {
   const plugin = parse('plugin.json');
   const mcp = parse('mcp.json');
-  const inventory = parse('dist/voicedot-agent-plugin-0.1.0.files.json');
+  const packageName = `voicedot-agent-plugin-${plugin.version}`;
+  const inventory = parse(`dist/${packageName}.files.json`);
   const catalog = parse('reviewer/review-catalog-v1.json');
-  const archive = readFileSync(resolve(root, `dist/${inventory.package}.tar.gz`));
+  const archive = readFileSync(resolve(root, `dist/${packageName}.tar.gz`));
   return {
     name: plugin.name,
     version: plugin.version,
@@ -57,7 +58,11 @@ function assertCard(card, filename) {
 export function validateSubmissionMaterials() {
   const preflight = parse('submission/preflight.json');
   if (preflight.marketplaceState !== 'non-submitted' || JSON.stringify(preflight.requiredOwnerInputs) !== JSON.stringify(ownerInputs)) fail('preflight owner blockers are incomplete');
-  for (const source of Object.values(preflight.canonicalSources)) if (!readFileSync(resolve(root, source))) fail(`canonical source is missing: ${source}`);
+  const plugin = parse('plugin.json');
+  for (const source of Object.values(preflight.canonicalSources)) {
+    const resolved = source.replace('${plugin.version}', plugin.version);
+    if (!readFileSync(resolve(root, resolved))) fail(`canonical source is missing: ${resolved}`);
+  }
   assertSanitized(preflight, 'preflight.json');
   for (const filename of cardFiles) assertCard(parse(`submission/${filename}`), filename);
   const candidate = deriveCandidate();

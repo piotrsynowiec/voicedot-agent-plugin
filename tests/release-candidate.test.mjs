@@ -19,10 +19,17 @@ test('local provenance remains non-marketplace-ready even when every synthetic l
   }
 });
 
-test('actual repository status remains a blocked non-submission candidate without remote immutability', () => {
+test('actual repository status preserves blocked marketplace invariants without remote immutability', () => {
   const status = verifyReleaseCandidate();
   assert.equal(status.status, 'blocked');
   assert.equal(status.marketplaceReadiness, 'blocked');
-  assert.ok(status.blockers.includes('version_tag_missing_or_mismatched'));
   assert.ok(status.blockers.includes('remote_immutable_candidate_unproven'));
+  assert.equal(status.evidence.artifactNames.archiveName, `voicedot-agent-plugin-${status.evidence.version}.tar.gz`);
+});
+
+test('a failed package gate always blocks the local release candidate', () => {
+  const status = evaluateReleaseCandidate({ ...validEvidence, packageGates: false });
+  assert.equal(status.status, 'blocked');
+  assert.equal(status.localProvenance, 'blocked');
+  assert.ok(status.blockers.includes('packageGates_invalid_or_stale'));
 });

@@ -5,7 +5,7 @@ import { resolve } from 'node:path';
 import { gunzipSync } from 'node:zlib';
 import { renderCompatibility } from '../scripts/generate-openai-compat.mjs';
 import { generateClaudeAdapter, renderClaudeAdapter } from '../scripts/generate-claude-adapter.mjs';
-import { buildPackage, parseUstar, validateUstarInventory } from '../scripts/package.mjs';
+import { buildPackage, parseUstar, serializeStableGzip, validateUstarInventory } from '../scripts/package.mjs';
 import { validateMcp, validatePackage, validatePlugin } from '../scripts/validate-package.mjs';
 
 const root = resolve(import.meta.dirname, '..');
@@ -36,7 +36,7 @@ test('archive, inventory, and digest are reproducible and use a stable safe file
   assert.deepEqual(inventory.files.map((file) => file.path), [...inventory.files.map((file) => file.path)].sort((left, right) => left.localeCompare(right)));
   assert.ok(inventory.files.every((file) => !file.path.includes('..') && !file.path.startsWith('/') && file.path !== 'AGENTS.md'));
   assert.ok(inventory.files.every((file) => !['scripts/', 'tests/', 'reviewer/', '.github/', 'node_modules/', 'dist/'].some((prefix) => file.path.startsWith(prefix))));
-  assert.match(first.digest, /^[a-f0-9]{64}  voicedot-agent-plugin-0\.1\.0\.tar\.gz\n$/);
+  assert.match(first.digest, new RegExp(`^[a-f0-9]{64}  voicedot-agent-plugin-${json('plugin.json').version.replaceAll('.', '\\.')}\\.tar\\.gz\\n$`));
   const parsed = parseUstar(first.archive);
   assert.deepEqual(parsed.map(({ path }) => path), inventory.files.map(({ path }) => path));
   assert.doesNotThrow(() => validateUstarInventory(first.archive, inventory));
@@ -45,6 +45,25 @@ test('archive, inventory, and digest are reproducible and use a stable safe file
   assert.throws(() => validateUstarInventory(first.archive, brokenInventory), /payload does not match inventory/);
   const archiveText = gunzipSync(first.archive).toString('utf8');
   assert.doesNotMatch(archiveText, /plugin_asdk_app[\w-]{8,}|authorization\s*[:=]\s*bearer\s+[A-Za-z0-9._-]{12,}|\/Users\//i);
+});
+
+test('gzip serialization has one fixed stored-DEFLATE form and is exactly repeatable', () => {
+  const payload = Buffer.concat([Buffer.from('VoiceDot\n'), Buffer.alloc(0x10000 + 3, 0x61)]);
+  const first = serializeStableGzip(payload);
+  const second = serializeStableGzip(Buffer.from(payload));
+  assert.deepEqual(first, second);
+  assert.deepEqual(first.subarray(0, 10), Buffer.from([0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff]));
+  let offset = 10;
+  for (;;) {
+    const final = first[offset] & 1;
+    assert.equal(first[offset] & 0xfe, 0, 'DEFLATE uses byte-aligned stored blocks only');
+    const length = first.readUInt16LE(offset + 1);
+    assert.equal(first.readUInt16LE(offset + 3), (~length) & 0xffff);
+    offset += 5 + length;
+    if (final) break;
+  }
+  assert.equal(offset + 8, first.length, 'only the fixed gzip trailer follows DEFLATE blocks');
+  assert.deepEqual(gunzipSync(first), payload);
 });
 
 test('Claude adapter is a byte-for-byte generated projection of canonical metadata and skill files', () => {

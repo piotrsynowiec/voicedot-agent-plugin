@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "voicedot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Review authorized VoiceDot feedback and create traceable Markdown briefs without changing product data.",
   "author": { "name": "VoiceDot" },
   "homepage": "https://voicedot.ai",

@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { assertSanitized, deriveCandidate, validateSubmissionMaterials } from '../scripts/validate-submission-materials.mjs';
 
 test('submission cards are blocked owner preflight maps derived from canonical sources', () => {
@@ -21,6 +23,9 @@ test('submission cards are blocked owner preflight maps derived from canonical s
   assert.equal(anthropic.fields.find((field) => field.name.includes('directory management access')).status, 'delegable-prerequisite');
   assert.deepEqual(anthropic.fields.filter((field) => field.source).map((field) => field.source), ['https://claude.ai/admin-settings/directory/submissions/plugins/new', 'https://platform.claude.com/plugins/submit']);
   assert.equal(deriveCandidate().name, 'voicedot');
+  const preflight = JSON.parse(readFileSync(resolve(import.meta.dirname, '../submission/preflight.json'), 'utf8'));
+  assert.equal(preflight.canonicalSources.inventory, 'dist/voicedot-agent-plugin-${plugin.version}.files.json');
+  assert.equal(status.candidate.version, JSON.parse(readFileSync(resolve(import.meta.dirname, '../plugin.json'), 'utf8')).version);
 });
 
 test('submission boundary scan rejects sensitive, local, customer, marker, and unsupported-status content', () => {

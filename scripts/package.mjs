@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { gunzipSync, gzipSync } from 'node:zlib';
+import { gunzipSync } from 'node:zlib';
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -7,7 +7,8 @@ import { assertPublicText, validatePackage } from './validate-package.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const dist = resolve(root, 'dist');
-const name = 'voicedot-agent-plugin-0.1.0';
+const plugin = JSON.parse(readFileSync(resolve(root, 'plugin.json'), 'utf8'));
+const name = `voicedot-agent-plugin-${plugin.version}`;
 const archivePath = resolve(dist, `${name}.tar.gz`);
 const inventoryPath = resolve(dist, `${name}.files.json`);
 const digestPath = resolve(dist, `${name}.sha256`);
@@ -16,6 +17,38 @@ const runtimeFiles = new Set([
   'README.md', 'LICENSE', 'CHANGELOG.md',
 ]);
 const runtimeDirectories = ['skills/', 'adapters/claude-code/'];
+
+// A gzip stream with uncompressed DEFLATE stored blocks is deliberately used
+// here instead of zlib compression. Its bytes are specified below, rather than
+// selected by the Node/zlib version or compression heuristics.
+const gzipHeader = Buffer.from([0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff]);
+
+function crc32(buffer) {
+  let crc = 0xffffffff;
+  for (const byte of buffer) {
+    crc ^= byte;
+    for (let bit = 0; bit < 8; bit += 1) crc = (crc >>> 1) ^ (0xedb88320 & -(crc & 1));
+  }
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+export function serializeStableGzip(payload) {
+  const blocks = [];
+  for (let offset = 0; offset < payload.length || (payload.length === 0 && offset === 0); offset += 0xffff) {
+    const chunk = payload.subarray(offset, Math.min(offset + 0xffff, payload.length));
+    const final = offset + chunk.length >= payload.length;
+    const header = Buffer.alloc(5);
+    header[0] = final ? 1 : 0; // BFINAL followed by the 00 stored-block type.
+    header.writeUInt16LE(chunk.length, 1);
+    header.writeUInt16LE((~chunk.length) & 0xffff, 3);
+    blocks.push(header, chunk);
+    if (final) break;
+  }
+  const trailer = Buffer.alloc(8);
+  trailer.writeUInt32LE(crc32(payload), 0);
+  trailer.writeUInt32LE(payload.length >>> 0, 4);
+  return Buffer.concat([gzipHeader, ...blocks, trailer]);
+}
 
 const runtimePathAllowed = (path) => runtimeFiles.has(path) || runtimeDirectories.some((prefix) => path.startsWith(prefix));
 
@@ -131,7 +164,7 @@ export function buildPackage() {
     const content = readFileSync(file);
     return [tarHeader(relative(root, file), content.length), content, Buffer.alloc((512 - (content.length % 512)) % 512)];
   }), Buffer.alloc(1024)]);
-  const archive = gzipSync(tar, { mtime: 0 });
+  const archive = serializeStableGzip(tar);
   validateUstarInventory(archive, { package: name, files: inventory });
   const digest = createHash('sha256').update(archive).digest('hex');
   return { archive, inventory: `${JSON.stringify({ package: name, files: inventory }, null, 2)}\n`, digest: `${digest}  ${name}.tar.gz\n` };
