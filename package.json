@@ -10,6 +10,9 @@
     "test": "node --test tests/*.test.mjs",
     "validate": "node scripts/validate-package.mjs",
     "package": "node scripts/package.mjs",
-    "package:check": "node scripts/package.mjs --check"
+    "package:check": "node scripts/package.mjs --check",
+    "submission:template-check": "node scripts/validate-submission-materials.mjs",
+    "submission:status": "node scripts/validate-submission-materials.mjs",
+    "release-candidate:status": "node scripts/verify-release-candidate.mjs"
   }
 }

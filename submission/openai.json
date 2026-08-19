@@ -1,0 +1,11 @@
+{
+  "platform": "OpenAI",
+  "status": "non-submitted",
+  "why": "Record documented submission boundaries without entering the owner portal or completing its attestation.",
+  "pageOrSourceBlocker": {"kind": "verified-page", "source": "https://developers.openai.com/plugins/deploy/submission", "reason": "Official submission guidance establishes portal materials, the required role and identity boundary, domain challenge, country, release notes, prompt cases, and final attestation."},
+  "fields": [{"name": "listing information, MCP server details, skills, starter prompts, test cases, country availability, and policy attestations", "status": "owner-blocked", "reason": "Documented portal materials and owner inputs are absent."}, {"name": "Apps Management write access", "status": "delegable-prerequisite", "reason": "The documented submitter permission can be granted to a submitter; no access change is performed locally."}, {"name": "domain challenge", "status": "owner-blocked", "reason": "The configured challenge is not production evidence."}, {"name": "final attestation", "status": "owner-only", "reason": "Never perform or imply this action locally."}],
+  "sharedData": ["candidate.name", "candidate.version", "candidate.description", "candidate.repository", "candidate.archiveSha256", "catalog.caseIds"],
+  "preApprovalChecks": ["immutableCandidate", "logo", "website", "supportUrl", "privacyUrl", "termsUrl", "country", "reviewerAccess", "cleanClientEvidence", "productionEvidence"],
+  "result": {"status": "blocked", "claim": "No OpenAI submission has been prepared or made."},
+  "recovery": "Owner supplies the documented materials and separately performs any role, identity, challenge, and final-attestation action."
+}

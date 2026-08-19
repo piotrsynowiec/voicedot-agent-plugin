@@ -38,13 +38,33 @@ function files(path = root) {
   });
 }
 
+const boundaryPatterns = () => [
+  new RegExp(`(?:api[_-]?key|access[_-]?token|refresh[_-]?token|secret)\\s*[:=]\\s*['"]?[A-Za-z0-9_-]{12,}`, 'i'),
+  new RegExp(['plugin_', 'asdk_', 'app[\\w-]{8,}'].join(''), 'i'),
+  new RegExp(['author', 'ization\\s*[:=]\\s*bearer\\s+', '[A-Za-z0-9._-]{12,}'].join(''), 'i'),
+  new RegExp(`@(?:gmail|icloud|protonmail)\\.com`, 'i'),
+  new RegExp(['(?:local', 'host|127\\.0\\.0\\.1|192\\.168\\.|10\\.\\d+\\.)'].join(''), 'i'),
+  new RegExp(['/', 'Users', '/'].join('')),
+  /(?:synthetic|fixture|test)[_-]?(?:marker|customer)[_-]?[a-z0-9]{4,}/i,
+  /(?:customer|visitor)[_-]?(?:id|email)\s*[:=]\s*['"]?\S+/i,
+];
+
+export function assertPublicText(text, label) {
+  if (boundaryPatterns().some((pattern) => pattern.test(text.toString('utf8')))) fail(`public boundary scan failed: ${label}`);
+}
+
 function validateBoundary() {
-  const forbidden = [/(?:api[_-]?key|access[_-]?token|refresh[_-]?token|secret)\s*[:=]\s*['"]?[A-Za-z0-9_-]{12,}/i, /plugin_asdk_app[\w-]{8,}/i, /authorization\s*[:=]\s*bearer\s+[A-Za-z0-9._-]{12,}/i, /@(?:gmail|icloud|protonmail)\.com/i, /(?:localhost|127\.0\.0\.1|192\.168\.|10\.\d+\.)/i, /\/Users\//];
   for (const path of files()) {
     const rel = relative(root, path);
-    if (rel === 'AGENTS.md' || rel === 'scripts/validate-package.mjs' || rel.startsWith('dist/')) continue;
-    const text = readFileSync(path, 'utf8');
-    if (forbidden.some((pattern) => pattern.test(text))) fail(`public boundary scan failed: ${rel}`);
+    if (rel.startsWith('dist/')) continue;
+    let text = readFileSync(path, 'utf8');
+    if (rel === 'AGENTS.md') {
+      const privatePath = ['/', 'Users', '/piotr/Development/voicedot'].join('');
+      const repositoryMap = `On Piotr's workstation the private sibling is \`${privatePath}\`. Validate a cross-repository contract change in both repositories; never copy runtime behavior, OAuth details, customer data, or secrets here.`;
+      if (!text.includes(repositoryMap)) fail('AGENTS repository-map exception is no longer exact');
+      text = text.replace(repositoryMap, '');
+    }
+    assertPublicText(text, rel);
   }
 }
 

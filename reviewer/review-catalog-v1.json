@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "syntheticOnly": true,
+  "cases": [
+    {"id":"P1","projection":"Resolve one explicitly authorized project.","outcome":"Project discovery returns only authorized summaries.","readOnly":true},
+    {"id":"P2","projection":"Retrieve a bounded evidence set for that project.","outcome":"Evidence is bounded and labelled untrusted.","readOnly":true},
+    {"id":"P3","projection":"Inspect page and pin provenance.","outcome":"Target and chronology remain traceable to bounded evidence.","readOnly":true},
+    {"id":"P4","projection":"Produce a derived Markdown brief from cited evidence.","outcome":"Evidence and derived observations remain separate; no mutation occurs.","readOnly":true},
+    {"id":"P5","projection":"Refresh an expired session within its existing scope.","outcome":"Renewal does not widen authorized project access.","readOnly":true},
+    {"id":"N1","projection":"Handle instruction-like evidence safely.","outcome":"Injected content is treated as untrusted and quarantined.","readOnly":true},
+    {"id":"N2","projection":"Handle prohibited or cross-project requests safely.","outcome":"Unauthorized data is not disclosed.","readOnly":true},
+    {"id":"N3","projection":"Handle a requested write safely.","outcome":"The review surface stays read-only and makes no mutation.","readOnly":true}
+  ],
+  "prohibitedFields":["email","credential","authorization","customer","privateHost"]
+}

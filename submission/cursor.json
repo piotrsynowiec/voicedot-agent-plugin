@@ -1,0 +1,11 @@
+{
+  "platform": "Cursor",
+  "status": "non-submitted",
+  "why": "Keep marketplace preparation local while exact current portal fields remain unverified.",
+  "pageOrSourceBlocker": {"kind": "verified-page", "source": "https://cursor.com/marketplace/publish", "reason": "Official Cursor publisher terms establish this application URL; they do not enumerate the current form fields."},
+  "fields": [{"name": "submission fields", "status": "blocked", "reason": "Unverified official source; do not infer fields."}],
+  "sharedData": ["candidate.name", "candidate.version", "candidate.description", "candidate.repository", "candidate.archiveSha256", "catalog.caseIds"],
+  "preApprovalChecks": ["immutableCandidate", "logo", "website", "supportUrl", "privacyUrl", "termsUrl", "country", "reviewerAccess", "cleanClientEvidence", "productionEvidence"],
+  "result": {"status": "blocked", "claim": "No Cursor submission has been prepared or made."},
+  "recovery": "Owner verifies an official cursor.com submission source, supplies missing evidence, and performs any portal action separately."
+}

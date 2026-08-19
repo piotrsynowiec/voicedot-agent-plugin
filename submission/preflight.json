@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "marketplaceState": "non-submitted",
+  "canonicalSources": {
+    "plugin": "plugin.json",
+    "mcp": "mcp.json",
+    "inventory": "dist/voicedot-agent-plugin-0.1.0.files.json",
+    "catalog": "reviewer/review-catalog-v1.json"
+  },
+  "requiredOwnerInputs": ["immutableCandidate", "logo", "website", "supportUrl", "privacyUrl", "termsUrl", "country", "reviewerAccess", "cleanClientEvidence", "productionEvidence"]
+}

@@ -5,7 +5,7 @@ import { resolve } from 'node:path';
 import { gunzipSync } from 'node:zlib';
 import { renderCompatibility } from '../scripts/generate-openai-compat.mjs';
 import { generateClaudeAdapter, renderClaudeAdapter } from '../scripts/generate-claude-adapter.mjs';
-import { buildPackage } from '../scripts/package.mjs';
+import { buildPackage, parseUstar, validateUstarInventory } from '../scripts/package.mjs';
 import { validateMcp, validatePackage, validatePlugin } from '../scripts/validate-package.mjs';
 
 const root = resolve(import.meta.dirname, '..');
@@ -24,7 +24,7 @@ test('importing generator APIs does not write and generation is deterministic', 
   const module = await import(`../scripts/generate-openai-compat.mjs?test=${Date.now()}`);
   assert.equal(typeof module.generateCompatibility, 'function');
   assert.deepEqual(before, [readFileSync(resolve(root, '.codex-plugin/plugin.json'), 'utf8'), readFileSync(resolve(root, '.mcp.json'), 'utf8')]);
-  module.generateCompatibility();
+  assert.deepEqual(module.renderCompatibility(json('plugin.json'), json('mcp.json')), { plugin: json('.codex-plugin/plugin.json'), mcp: json('.mcp.json') });
   assert.deepEqual(before, [readFileSync(resolve(root, '.codex-plugin/plugin.json'), 'utf8'), readFileSync(resolve(root, '.mcp.json'), 'utf8')]);
 });
 
@@ -35,7 +35,14 @@ test('archive, inventory, and digest are reproducible and use a stable safe file
   const inventory = JSON.parse(first.inventory);
   assert.deepEqual(inventory.files.map((file) => file.path), [...inventory.files.map((file) => file.path)].sort((left, right) => left.localeCompare(right)));
   assert.ok(inventory.files.every((file) => !file.path.includes('..') && !file.path.startsWith('/') && file.path !== 'AGENTS.md'));
+  assert.ok(inventory.files.every((file) => !['scripts/', 'tests/', 'reviewer/', '.github/', 'node_modules/', 'dist/'].some((prefix) => file.path.startsWith(prefix))));
   assert.match(first.digest, /^[a-f0-9]{64}  voicedot-agent-plugin-0\.1\.0\.tar\.gz\n$/);
+  const parsed = parseUstar(first.archive);
+  assert.deepEqual(parsed.map(({ path }) => path), inventory.files.map(({ path }) => path));
+  assert.doesNotThrow(() => validateUstarInventory(first.archive, inventory));
+  const brokenInventory = structuredClone(inventory);
+  brokenInventory.files[0].sha256 = '0'.repeat(64);
+  assert.throws(() => validateUstarInventory(first.archive, brokenInventory), /payload does not match inventory/);
   const archiveText = gunzipSync(first.archive).toString('utf8');
   assert.doesNotMatch(archiveText, /plugin_asdk_app[\w-]{8,}|authorization\s*[:=]\s*bearer\s+[A-Za-z0-9._-]{12,}|\/Users\//i);
 });

@@ -1,0 +1,11 @@
+{
+  "platform": "Anthropic",
+  "status": "non-submitted",
+  "why": "Record the documented public-repository route and both official forms without entering either form.",
+  "pageOrSourceBlocker": {"kind": "verified-page", "source": "https://claude.com/docs/plugins/submit", "reason": "Official documentation requires a public GitHub repository and identifies delegable Claude.ai directory-management access or eligible Console roles plus both forms."},
+  "fields": [{"name": "public GitHub repository", "status": "owner-blocked", "reason": "An immutable candidate is absent."}, {"name": "Claude.ai directory management access or Console Developer, Admin, or Owner role", "status": "delegable-prerequisite", "reason": "The documented access is delegable or role-based; no access change is performed locally."}, {"name": "Claude.ai form", "status": "owner-only", "source": "https://claude.ai/admin-settings/directory/submissions/plugins/new", "reason": "Never enter or submit this form locally."}, {"name": "Console form", "status": "owner-only", "source": "https://platform.claude.com/plugins/submit", "reason": "Never enter or submit this form locally."}, {"name": "other portal fields", "status": "blocked", "reason": "The official page does not enumerate them; do not infer fields."}],
+  "sharedData": ["candidate.name", "candidate.version", "candidate.description", "candidate.repository", "candidate.archiveSha256", "catalog.caseIds"],
+  "preApprovalChecks": ["immutableCandidate", "logo", "website", "supportUrl", "privacyUrl", "termsUrl", "country", "reviewerAccess", "cleanClientEvidence", "productionEvidence"],
+  "result": {"status": "blocked", "claim": "No Anthropic submission has been prepared or made."},
+  "recovery": "Owner supplies the missing evidence and independently uses an official submission form after separate approval."
+}
