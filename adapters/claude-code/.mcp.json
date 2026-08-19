@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "voicedot": {
+      "type": "http",
+      "url": "https://mcp.voicedot.ai/mcp"
+    }
+  }
+}

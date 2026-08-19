@@ -1,0 +1,8 @@
+{
+  "name": "voicedot",
+  "version": "0.1.0",
+  "description": "Review authorized VoiceDot feedback and create traceable Markdown briefs without changing product data.",
+  "author": {
+    "name": "VoiceDot"
+  }
+}

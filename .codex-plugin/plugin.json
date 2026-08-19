@@ -1,0 +1,37 @@
+{
+  "name": "voicedot",
+  "version": "0.1.0",
+  "description": "Review authorized VoiceDot feedback and create traceable Markdown briefs without changing product data.",
+  "author": {
+    "name": "VoiceDot"
+  },
+  "homepage": "https://voicedot.ai",
+  "repository": "https://github.com/piotrsynowiec/voicedot-agent-plugin",
+  "license": "MIT",
+  "keywords": [
+    "feedback",
+    "product",
+    "mcp",
+    "research"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "VoiceDot Feedback",
+    "shortDescription": "Turn product feedback into traceable briefs.",
+    "longDescription": "Read authorized VoiceDot feedback and produce clearly sourced Markdown evidence briefs.",
+    "developerName": "VoiceDot",
+    "category": "Productivity",
+    "capabilities": [
+      "Read-only MCP",
+      "Evidence briefs"
+    ],
+    "websiteURL": "https://voicedot.ai",
+    "defaultPrompt": [
+      "Review VoiceDot feedback from the last 7 days.",
+      "Create a brief for feedback on this page.",
+      "Review this VoiceDot pin thread."
+    ],
+    "brandColor": "#6C5CE7"
+  }
+}

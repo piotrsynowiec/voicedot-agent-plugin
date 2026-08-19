@@ -1,0 +1,15 @@
+{
+  "name": "voicedot-agent-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Portable VoiceDot Agent Plugin source and validators.",
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/generate-openai-compat.mjs && node scripts/generate-claude-adapter.mjs",
+    "generate:check": "node scripts/generate-openai-compat.mjs --check && node scripts/generate-claude-adapter.mjs --check",
+    "test": "node --test tests/*.test.mjs",
+    "validate": "node scripts/validate-package.mjs",
+    "package": "node scripts/package.mjs",
+    "package:check": "node scripts/package.mjs --check"
+  }
+}

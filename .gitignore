@@ -1,0 +1,5 @@
+.DS_Store
+.app.json
+node_modules/
+*.tgz
+dist/*.tar.gz

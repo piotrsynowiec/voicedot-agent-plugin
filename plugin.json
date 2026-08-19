@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "voicedot",
+  "version": "0.1.0",
+  "description": "Review authorized VoiceDot feedback and create traceable Markdown briefs without changing product data.",
+  "author": { "name": "VoiceDot" },
+  "homepage": "https://voicedot.ai",
+  "repository": "https://github.com/piotrsynowiec/voicedot-agent-plugin",
+  "license": "MIT",
+  "keywords": ["feedback", "product", "mcp", "research"]
+}
