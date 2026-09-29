@@ -29,6 +29,19 @@ server, including irreversible visitor-facing reply sends.
 Backend tests are separate from clean-client review replays. No successful
 authenticated review replay or demo recording is claimed by this repository.
 
+## Submission hold — owner decision, 2026-09-30
+
+Do not submit or publish this plugin until the requested MCP project-creation
+and widget-installation workflow is implemented, tested and reflected in the
+final package, review cases, reviewer access and public policy coverage.
+Version 0.2.0 currently declares only the existing feedback tools; project
+creation is not implemented or advertised by this candidate.
+
+The owner will record the final video and complete the final private/legal
+fields. Preparation continues locally. See [preparation checklist](preparation-checklist.md)
+and [recording plan](recording-plan.md). No final upload, submission or publication
+is authorized by this preparation request.
+
 ## Verified on 2026-09-30
 
 - Backend PR #37 and website PR #14 are merged and deployed. The production

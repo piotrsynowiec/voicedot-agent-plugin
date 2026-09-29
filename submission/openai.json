@@ -9,6 +9,11 @@
   },
   "fields": [
     {
+      "name": "MCP project creation and widget installation",
+      "status": "implementation-pending",
+      "reason": "Owner explicitly placed submission on hold until agents can create projects on eligible plans and install the returned widget snippet. Empty-account onboarding scope still needs clarification. Do not add unimplemented tool claims to the package."
+    },
+    {
       "name": "listing, logo, skills, starter prompts, country availability and release notes",
       "status": "prepared-locally",
       "reason": "Canonical plugin.json contains the listing, square brand asset, three starter prompts, all-country availability and no-commerce declaration."
@@ -61,7 +66,7 @@
   ],
   "result": {
     "status": "blocked",
-    "claim": "Local submission materials are prepared; no portal upload or submission has been made."
+    "claim": "Preparation only. Owner explicitly holds submission and publication until MCP project creation and widget installation are complete; no final upload or submission has been made."
   },
-  "recovery": "Load the authenticated reviewer client and complete all eight real case replays, production write verification, real demo recording and immutable release provenance; then import the final materials and complete OAuth, tool scan and domain verification in the existing portal candidate. The owner performs legal attestations."
+  "recovery": "Complete the requested project-creation workflow, entitlement and OAuth checks, safe reviewer access and real client replays. Update truthful listing, cases, release notes and policy coverage, then help the owner record the final video and complete private/legal fields. Keep submission on hold until the requested feature is verified."
 }
