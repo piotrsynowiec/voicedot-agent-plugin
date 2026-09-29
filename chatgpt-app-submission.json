@@ -258,7 +258,7 @@
   },
   "test_cases": [
     {
-      "description": "Select one authorized synthetic reviewer project. The reviewer account must have Atlas Checkout and Kwiatowa Kasa, and no customer projects.",
+      "description": "Select the authorized synthetic Atlas Checkout project. Use the dedicated reviewer account with no customer projects; all review cases use this one English test page.",
       "user_prompt": "List my VoiceDot projects and select Atlas Checkout for this review.",
       "tools_triggered": "list_projects, resolve_project_context",
       "expected_output": "List only projects in the reviewer's current grant, select Atlas Checkout, and report its project context without exposing another workspace."
@@ -282,8 +282,8 @@
       "expected_output": "Identify the exact authorized pin before the write, set only that pin to closed, and report that it is hidden from the live page. Its discussion and history must remain unchanged."
     },
     {
-      "description": "Two-turn reply flow in synthetic Kwiatowa Kasa, using a separate pin from the resolve case. After the preview, the reviewer separately says: Tak, wyślij dokładnie tę odpowiedź.",
-      "user_prompt": "Przygotuj odpowiedź na przypięty komentarz o cenie w Kwiatowa Kasa: Dziękujemy za uwagę. Wyjaśniliśmy pełną cenę przed płatnością. Pokaż dokładną treść przed wysłaniem.",
+      "description": "Two-turn English reply flow on the synthetic Atlas Checkout page, using a separate pin from the closure case. After the preview, the reviewer separately says: Yes, send exactly this reply.",
+      "user_prompt": "Prepare a reply to the pricing comment in Atlas Checkout: Thank you for the feedback. We clarified the full price before payment. Show me the exact text before sending.",
       "tools_triggered": "search_pins, prepare_thread_reply; only after the separate confirmation: send_thread_reply",
       "expected_output": "Show the exact target and reply preview, wait for the reviewer's separate explicit yes, then send only that prepared text once and report the result. Never expose the visitor's email."
     }

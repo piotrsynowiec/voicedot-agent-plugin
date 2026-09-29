@@ -59,13 +59,14 @@ a ZIP workflow. Use the actual interface presented by the target organization.
 
 ## Demo outline (about three minutes)
 
-- Start with the reviewer account connected only to Atlas Checkout and
-  Kwiatowa Kasa, with resolving and replying enabled.
+- Start with the dedicated reviewer account, with resolving and replying
+  enabled. Use only the English Atlas Checkout page for every review case
+  and the recording.
 - Ask for an Atlas checkout evidence brief. Show citations and withheld counts.
 - Inspect the pricing pin and its chronology.
 - Ask to close only that page pin. Show it disappear from the synthetic page
   while its discussion remains open in VoiceDot.
-- Ask for the Polish pricing reply in Kwiatowa Kasa. Show the exact preview,
+- Ask for an English pricing reply to a separate Atlas Checkout pin. Show the exact preview,
   separately confirm it, then show the stored visitor-facing reply.
 - Demonstrate refusal of unsupported deletion and an unconfirmed send.
 - Reopen the Atlas page pin after recording. Use a fresh thread for another
