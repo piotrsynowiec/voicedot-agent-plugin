@@ -4,7 +4,7 @@
   "app_info": {
     "display_name": "VoiceDot Feedback",
     "subtitle": "Review and act on feedback",
-    "description": "Connect your VoiceDot account to review feedback in projects you authorize. Search conversations and pinned threads, inspect the original context, and create evidence-backed briefs. If you separately grant write permissions, you can close or reopen page pins, resolve discussions, or reply to visitors. Closing a page pin hides it from the live page without resolving its discussion. Sending a reply requires a preview and your explicit confirmation. The plugin cannot delete feedback or access projects outside your grant.",
+    "description": "Connect your VoiceDot account to review feedback in projects you authorize. Search conversations and pinned threads, inspect the original context, and create evidence-backed briefs. If you separately grant write permissions, you can close or reopen page pins, resolve discussions, or reply to visitors. Closing a page pin hides it from the live page without resolving its discussion. Sending a reply requires a preview and your explicit confirmation. The plugin cannot delete feedback or access projects outside your grant. With a separate projects:create permission and an eligible plan, add a project to your existing workspace and get its public installation snippet. Your coding agent edits the website repository using its own tools and verifies a fresh backend widget ping before reporting readiness. New-account onboarding and plan purchases are unsupported.",
     "category": "PRODUCTIVITY"
   },
   "tools": {
@@ -164,6 +164,32 @@
         "destructive_justification": "This read operation does not delete or alter feedback, pins, conversations or settings."
       }
     },
+    "get_project_installation": {
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Retrieves authorized project context or bounded feedback evidence; it does not change customer feedback or send messages.",
+        "open_world_justification": "Retrieval is restricted to projects in the current VoiceDot OAuth grant; it does not search arbitrary external accounts.",
+        "destructive_justification": "This read operation does not delete or alter feedback, pins, conversations or settings."
+      }
+    },
+    "get_project_installation_status": {
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Retrieves authorized project context or bounded feedback evidence; it does not change customer feedback or send messages.",
+        "open_world_justification": "Retrieval is restricted to projects in the current VoiceDot OAuth grant; it does not search arbitrary external accounts.",
+        "destructive_justification": "This read operation does not delete or alter feedback, pins, conversations or settings."
+      }
+    },
     "set_pin_statuses": {
       "annotations": {
         "readOnlyHint": false,
@@ -240,6 +266,19 @@
         "read_only_justification": "Consumes a single-use token to resolve only the previewed selection. The owner can reopen affected discussions.",
         "open_world_justification": "The operation is confined to the current grant and its authorized VoiceDot projects; it does not post to arbitrary external services.",
         "destructive_justification": "The operation does not delete feedback or history. Drafts do not send messages, and resolved discussions or closed pins can be reopened."
+      }
+    },
+    "create_project": {
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Creates one project in the existing owned VoiceDot workspace, only with explicit projects:create permission and plan eligibility; grants the creating connection access to that new project.",
+        "open_world_justification": "Creation is limited to the existing owned workspace. It does not fetch external URLs, edit a website, buy a plan or create an account.",
+        "destructive_justification": "No existing project or feedback is deleted or changed. Durable per-grant retry keys prevent duplicate creation, and the owner can archive the new project."
       }
     },
     "send_thread_reply": {

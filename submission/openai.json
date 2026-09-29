@@ -1,7 +1,7 @@
 {
   "platform": "OpenAI",
   "status": "non-submitted",
-  "why": "Prepare the VoiceDot 0.2.0 public submission for Good Sheet Sp z o.o. with read access and optional resolving and replying. An existing 0.1.1 draft was inspected; no new upload or submission was made.",
+  "why": "Prepare the VoiceDot 0.3.0 public submission for Good Sheet Sp z o.o. with read access and optional resolving and replying. An existing 0.1.1 draft was inspected; no new upload or submission was made.",
   "pageOrSourceBlocker": {
     "kind": "verified-page",
     "source": "https://developers.openai.com/plugins/deploy/submission",
@@ -11,7 +11,7 @@
     {
       "name": "MCP project creation and widget installation",
       "status": "implementation-pending",
-      "reason": "Owner explicitly placed submission on hold until agents can create projects on eligible plans and install the returned widget snippet. Empty-account onboarding scope still needs clarification. Do not add unimplemented tool claims to the package."
+      "reason": "Owner explicitly placed submission on hold until agents can create projects on eligible plans and install the returned widget snippet. Existing-account creation is the current release scope; new-account onboarding is explicitly deferred. The new tools remain a release candidate until deployment and real ping verification succeed."
     },
     {
       "name": "listing, logo, skills, starter prompts, country availability and release notes",
@@ -31,7 +31,7 @@
     {
       "name": "business identity and portal access",
       "status": "observed-in-portal",
-      "reason": "The existing draft in the Holy organization selects Business \u2014 Good Sheet Sp z o.o. The authenticated submission form is accessible; final authorization and attestation remain with the owner."
+      "reason": "The existing draft in the Holy organization selects Business — Good Sheet Sp z o.o. The authenticated submission form is accessible; final authorization and attestation remain with the owner."
     },
     {
       "name": "OAuth and domain challenge",

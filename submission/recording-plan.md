@@ -22,14 +22,14 @@ fragmentów jednego rzeczywistego przebiegu; nie zastępuj wyników makietami.
 
 ### 1. Projekt i instalacja — po ukończeniu nowego MCP
 
-Prompt do doprecyzowania po ustaleniu zakresu:
+Prompt dla istniejącego, połączonego konta (adres witryny musi być jednoznaczny):
 
 > Create a VoiceDot project for this website and install its widget in this repository. Check whether my plan allows it first.
 
 Pokaż faktyczny wynik kontroli planu, utworzony projekt, zmianę w kodzie,
 widget na stronie i wynik wykrycia instalacji. Nie pokazuj kluczy OAuth.
 Agent powinien wyjaśnić ograniczenie planu bez kupowania lub zmiany subskrypcji.
-Ten fragment jest planowany; bieżący plugin nie obsługuje jeszcze tworzenia.
+Ten fragment wymaga próby na wdrożonym MCP: `create_project` → instalacja w repo → otwarcie HTTPS w przeglądarce → `get_project_installation_status` z `readyForFeedback=true`. Nowych kont nie obejmuje ta wersja.
 
 ### 2. Wybór Atlas i materiał źródłowy
 

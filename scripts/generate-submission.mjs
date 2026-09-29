@@ -9,6 +9,7 @@ const readTools = [
   'search_feedback_across_projects', 'get_conversation', 'get_pin_thread',
   'get_page_feedback', 'prepare_feedback_evidence', 'search_pins',
   'match_pin_attribute', 'get_project_summary', 'get_quarantine_summary',
+  'get_project_installation', 'get_project_installation_status',
 ];
 const tools = Object.fromEntries(readTools.map((name) => [name, {
   annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
@@ -35,6 +36,14 @@ for (const [name, effect, idempotent] of [
     },
   };
 }
+tools.create_project = {
+  annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  justifications: {
+    read_only_justification: 'Creates one project in the existing owned VoiceDot workspace, only with explicit projects:create permission and plan eligibility; grants the creating connection access to that new project.',
+    open_world_justification: 'Creation is limited to the existing owned workspace. It does not fetch external URLs, edit a website, buy a plan or create an account.',
+    destructive_justification: 'No existing project or feedback is deleted or changed. Durable per-grant retry keys prevent duplicate creation, and the owner can archive the new project.',
+  },
+};
 tools.send_thread_reply = {
   annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true },
   justifications: {

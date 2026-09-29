@@ -1,6 +1,6 @@
 # OpenAI submission materials
 
-Prepared on 2026-09-29 for version 0.2.0. This is a candidate, not a claim of
+Prepared on 2026-09-29 for version 0.3.0. This is a candidate, not a claim of
 submission or publication.
 
 ## Files
@@ -8,8 +8,8 @@ submission or publication.
 - `plugin.json`: portable listing, three starter prompts, five positive and
   three negative review cases, all-country availability and no commerce.
 - `chatgpt-app-submission.json`: generated import for the form currently shown
-  in OpenAI Platform. Includes annotations and justifications for 19 tools.
-- `dist/voicedot-agent-plugin-0.2.0.zip`: ZIP for the package upload workflow.
+  in OpenAI Platform. Includes annotations and justifications for 22 tools.
+- `dist/voicedot-agent-plugin-0.3.0.zip`: ZIP for the package upload workflow.
 - `assets/icon.png`: existing VoiceDot brand icon, 512 × 512 PNG.
 - `skills/review-voicedot-feedback/`: canonical workflow and references.
 
@@ -34,8 +34,9 @@ authenticated review replay or demo recording is claimed by this repository.
 Do not submit or publish this plugin until the requested MCP project-creation
 and widget-installation workflow is implemented, tested and reflected in the
 final package, review cases, reviewer access and public policy coverage.
-Version 0.2.0 currently declares only the existing feedback tools; project
-creation is not implemented or advertised by this candidate.
+Version 0.3.0 includes the existing-account creation and installation workflow
+as a release candidate. First-project onboarding is deferred; production and
+reviewer evidence must be completed before final submission.
 
 The owner will record the final video and complete the final private/legal
 fields. Preparation continues locally. See [preparation checklist](preparation-checklist.md)

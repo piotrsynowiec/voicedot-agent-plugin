@@ -1,7 +1,7 @@
 # Przygotowanie zgłoszenia VoiceDot
 
 Stan: 30 września 2026. **Zgłoszenie i publikacja wstrzymane decyzją Piotra.**
-Pakiet 0.2.0 jest kandydatem; nie zawiera tworzenia projektów przez MCP.
+Pakiet 0.3.0 jest kandydatem z przepływem tworzenia i instalacji dla istniejącego konta; wdrożenie i rzeczywiste potwierdzenie pingu są wymagane przed recenzją.
 
 Podstawa procesu: [instrukcja OpenAI](https://developers.openai.com/plugins/deploy/submission).
 Wymagane są sprawdzone materiały recenzji, działający dostęp testowy, nagranie,
@@ -28,7 +28,7 @@ Przyjęcie do recenzji i publikacja po akceptacji są osobnymi krokami.
 | Cztery adresy publiczne | Obecna strona sprawdzona | Codex zweryfikuje ponownie przed finalnym pakietem |
 | Nowa strona voicedot-site | Dokumenty są szkicami, ujawnienie MCP niepełne | Uzupełnienie i osobny odbiór przed podmianą strony |
 | Odczyt i zapis feedbacku | Backend wdrożony | Faktyczne scenariusze w kliencie recenzenta |
-| Tworzenie projektów przez MCP | Niezaimplementowane | Ustalenie zakresu pustego konta, implementacja i testy |
+| Tworzenie projektów przez MCP | Kandydat implementacji dla istniejącego konta | Wdrożenie i testy istniejącego konta; nowe konta są odłożone |
 | Instalacja snippetem | Istnieje generator w backendzie | Agent ma dostać prawdziwy snippet i sprawdzić instalację |
 | Uprawnienia OAuth | Obecne dwa uprawnienia zapisu działają | Osobna zgoda na tworzenie; bez automatycznej zmiany starych grantów |
 | Recenzent | Istniejący odczyt i zapis zalogowany przez OAuth | Nowy scenariusz tworzenia wymaga działającego, izolowanego dostępu testowego |

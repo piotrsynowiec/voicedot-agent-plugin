@@ -1,22 +1,37 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "voicedot",
-  "version": "0.2.0",
-  "description": "Review authorized VoiceDot feedback and, with optional permissions, close page pins, resolve discussions, or reply to visitors.",
-  "author": { "name": "Good Sheet Sp z o.o.", "url": "https://voicedot.ai/en" },
+  "version": "0.3.0",
+  "description": "Create and install VoiceDot projects in an existing workspace, review authorized feedback, and optionally close pins, resolve discussions, or reply.",
+  "author": {
+    "name": "Good Sheet Sp z o.o.",
+    "url": "https://voicedot.ai/en"
+  },
   "homepage": "https://voicedot.ai/en/mcp",
   "repository": "https://github.com/piotrsynowiec/voicedot-agent-plugin",
   "license": "MIT",
-  "keywords": ["feedback", "product", "mcp", "research"],
+  "keywords": [
+    "feedback",
+    "product",
+    "mcp",
+    "research"
+  ],
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "VoiceDot Feedback",
         "shortDescription": "Review and act on feedback",
-        "longDescription": "Connect your VoiceDot account to review feedback in projects you authorize. Search conversations and pinned threads, inspect the original context, and create evidence-backed briefs. If you separately grant write permissions, you can close or reopen page pins, resolve discussions, or reply to visitors. Closing a page pin hides it from the live page without resolving its discussion. Sending a reply requires a preview and your explicit confirmation. The plugin cannot delete feedback or access projects outside your grant.",
+        "longDescription": "Connect your VoiceDot account to review feedback in projects you authorize. Search conversations and pinned threads, inspect the original context, and create evidence-backed briefs. If you separately grant write permissions, you can close or reopen page pins, resolve discussions, or reply to visitors. Closing a page pin hides it from the live page without resolving its discussion. Sending a reply requires a preview and your explicit confirmation. The plugin cannot delete feedback or access projects outside your grant. With a separate projects:create permission and an eligible plan, add a project to your existing workspace and get its public installation snippet. Your coding agent edits the website repository using its own tools and verifies a fresh backend widget ping before reporting readiness. New-account onboarding and plan purchases are unsupported.",
         "developerName": "Good Sheet Sp z o.o.",
         "category": "Productivity",
-        "capabilities": ["Review feedback", "Close page pins", "Resolve discussions", "Reply to threads"],
+        "capabilities": [
+          "Review feedback",
+          "Close page pins",
+          "Resolve discussions",
+          "Reply to threads",
+          "Create projects",
+          "Verify widget installation"
+        ],
         "websiteURL": "https://voicedot.ai/en/mcp",
         "supportURL": "https://voicedot.ai/en/support",
         "privacyPolicyURL": "https://voicedot.ai/en/privacy",
@@ -83,7 +98,7 @@
       },
       "publication": {
         "countries": [],
-        "release_notes": "Initial public submission of VoiceDot Feedback with authorized feedback review, optional page-pin closure, discussion resolution, and replies. Visitor-facing replies require an exact preview and explicit confirmation."
+        "release_notes": "Initial public submission of VoiceDot Feedback with authorized feedback review, optional page-pin closure, discussion resolution, and replies. Visitor-facing replies require an exact preview and explicit confirmation. Adds project creation for an existing owned workspace with separate projects:create permission, durable retry protection, exact HTTPS origin/port installation instructions, and fresh accepted backend ping verification. No account signup or plan purchase is performed."
       }
     }
   }
