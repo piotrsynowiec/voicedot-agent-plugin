@@ -39,8 +39,8 @@ creation is not implemented or advertised by this candidate.
 
 The owner will record the final video and complete the final private/legal
 fields. Preparation continues locally. See [preparation checklist](preparation-checklist.md)
-and [recording plan](recording-plan.md). No final upload, submission or publication
-is authorized by this preparation request.
+and [recording plan](recording-plan.md). Final package upload follows completed
+preparation; submission and publication remain on hold.
 
 ## Verified on 2026-09-30
 
