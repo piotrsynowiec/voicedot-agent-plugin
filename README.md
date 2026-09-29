@@ -1,6 +1,6 @@
 # VoiceDot Agent Plugin
 
-Portable, read-only MCP metadata and a canonical skill for reviewing authorized VoiceDot feedback. It connects to `https://mcp.voicedot.ai/mcp`; OAuth and project authorization are discovered and enforced by the production service.
+Portable MCP metadata and a canonical skill for reviewing authorized VoiceDot feedback. It connects to `https://mcp.voicedot.ai/mcp`; OAuth and project authorization are discovered and enforced by the production service. Closing page pins, resolving discussions, and replying need separate optional write permissions. Closing a page pin hides it from the live page without resolving its discussion. Visitor-facing replies require an exact preview and explicit confirmation.
 
 ## Source of truth
 
@@ -17,4 +17,4 @@ npm run validate
 npm run package
 ```
 
-The release archive, inventory, and SHA-256 digest are in `dist/`. The Claude adapter carries the same read-only remote MCP endpoint, but this repository does not claim a Claude marketplace listing or authenticated client smoke.
+The release archives, inventory, and SHA-256 digests are in `dist/`. The Claude adapter carries the same remote MCP endpoint, but this repository does not claim a Claude marketplace listing or authenticated client smoke. OpenAI submission requires the ZIP archive, live reviewer access, a verified demo recording, and portal checks.

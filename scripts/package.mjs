@@ -10,13 +10,15 @@ const dist = resolve(root, 'dist');
 const plugin = JSON.parse(readFileSync(resolve(root, 'plugin.json'), 'utf8'));
 const name = `voicedot-agent-plugin-${plugin.version}`;
 const archivePath = resolve(dist, `${name}.tar.gz`);
+const zipPath = resolve(dist, `${name}.zip`);
 const inventoryPath = resolve(dist, `${name}.files.json`);
 const digestPath = resolve(dist, `${name}.sha256`);
+const zipDigestPath = resolve(dist, `${name}.zip.sha256`);
 const runtimeFiles = new Set([
   '.codex-plugin/plugin.json', '.mcp.json', 'plugin.json', 'mcp.json',
   'README.md', 'LICENSE', 'CHANGELOG.md',
 ]);
-const runtimeDirectories = ['skills/', 'adapters/claude-code/'];
+const runtimeDirectories = ['skills/', 'adapters/claude-code/', 'assets/'];
 
 // A gzip stream with uncompressed DEFLATE stored blocks is deliberately used
 // here instead of zlib compression. Its bytes are specified below, rather than
@@ -30,6 +32,51 @@ function crc32(buffer) {
     for (let bit = 0; bit < 8; bit += 1) crc = (crc >>> 1) ^ (0xedb88320 & -(crc & 1));
   }
   return (crc ^ 0xffffffff) >>> 0;
+}
+
+export function serializeStableZip(entries) {
+  const local = [];
+  const central = [];
+  let offset = 0;
+  for (const { path, payload } of entries) {
+    const filename = Buffer.from(path, 'utf8');
+    if (filename.length > 0xffff || payload.length > 0xffffffff) throw new Error(`ZIP entry is too large: ${path}`);
+    const checksum = crc32(payload);
+    const header = Buffer.alloc(30);
+    header.writeUInt32LE(0x04034b50, 0);
+    header.writeUInt16LE(20, 4);
+    header.writeUInt16LE(0x800, 6); // UTF-8 names, no data descriptor.
+    header.writeUInt16LE(0x21, 12); // 1980-01-01.
+    header.writeUInt32LE(checksum, 14);
+    header.writeUInt32LE(payload.length, 18);
+    header.writeUInt32LE(payload.length, 22);
+    header.writeUInt16LE(filename.length, 26);
+    local.push(header, filename, payload);
+
+    const directory = Buffer.alloc(46);
+    directory.writeUInt32LE(0x02014b50, 0);
+    directory.writeUInt16LE(0x0314, 4); // Unix creator, ZIP 2.0.
+    directory.writeUInt16LE(20, 6);
+    directory.writeUInt16LE(0x800, 8);
+    directory.writeUInt16LE(0x21, 14);
+    directory.writeUInt32LE(checksum, 16);
+    directory.writeUInt32LE(payload.length, 20);
+    directory.writeUInt32LE(payload.length, 24);
+    directory.writeUInt16LE(filename.length, 28);
+    directory.writeUInt32LE(0o100644 * 0x10000, 38);
+    directory.writeUInt32LE(offset, 42);
+    central.push(directory, filename);
+    offset += header.length + filename.length + payload.length;
+  }
+  if (entries.length > 0xffff) throw new Error('ZIP has too many entries');
+  const directoryBytes = central.reduce((sum, part) => sum + part.length, 0);
+  const ending = Buffer.alloc(22);
+  ending.writeUInt32LE(0x06054b50, 0);
+  ending.writeUInt16LE(entries.length, 8);
+  ending.writeUInt16LE(entries.length, 10);
+  ending.writeUInt32LE(directoryBytes, 12);
+  ending.writeUInt32LE(offset, 16);
+  return Buffer.concat([...local, ...central, ending]);
 }
 
 export function serializeStableGzip(payload) {
@@ -57,7 +104,12 @@ function sourceFiles(path = root) {
     const child = resolve(path, entry.name);
     const archivePath = relative(root, child);
     if (entry.isSymbolicLink()) throw new Error(`symlink cannot be archived: ${archivePath}`);
-    if (entry.isDirectory()) return runtimeDirectories.some((prefix) => prefix.startsWith(`${archivePath}/`) || archivePath.startsWith(prefix)) ? sourceFiles(child) : [];
+    if (entry.isDirectory()) {
+      const directory = `${archivePath}/`;
+      const included = runtimeDirectories.some((prefix) => prefix.startsWith(directory) || archivePath.startsWith(prefix))
+        || [...runtimeFiles].some((file) => file.startsWith(directory));
+      return included ? sourceFiles(child) : [];
+    }
     return runtimePathAllowed(archivePath) ? [child] : [];
   }).sort((left, right) => relative(root, left).localeCompare(relative(root, right)));
 }
@@ -148,7 +200,7 @@ export function validateUstarInventory(archive, inventory) {
     const expectedEntry = expected[index];
     const sha256 = createHash('sha256').update(entry.payload).digest('hex');
     if (entry.payload.length !== expectedEntry.bytes || sha256 !== expectedEntry.sha256) throw new Error(`USTAR payload does not match inventory: ${entry.path}`);
-    assertPublicText(entry.payload, `archive:${entry.path}`);
+    if (!entry.path.startsWith('assets/')) assertPublicText(entry.payload, `archive:${entry.path}`);
   }
   return entries;
 }
@@ -156,29 +208,32 @@ export function validateUstarInventory(archive, inventory) {
 export function buildPackage() {
   validatePackage();
   const files = sourceFiles();
-  const inventory = files.map((file) => {
-    const content = readFileSync(file);
-    return { path: relative(root, file), bytes: content.length, sha256: createHash('sha256').update(content).digest('hex') };
+  const entries = files.map((file) => ({ path: relative(root, file), payload: readFileSync(file) }));
+  const inventory = entries.map(({ path, payload }) => {
+    return { path, bytes: payload.length, sha256: createHash('sha256').update(payload).digest('hex') };
   });
-  const tar = Buffer.concat([...files.flatMap((file) => {
-    const content = readFileSync(file);
-    return [tarHeader(relative(root, file), content.length), content, Buffer.alloc((512 - (content.length % 512)) % 512)];
+  const tar = Buffer.concat([...entries.flatMap(({ path, payload }) => {
+    return [tarHeader(path, payload.length), payload, Buffer.alloc((512 - (payload.length % 512)) % 512)];
   }), Buffer.alloc(1024)]);
   const archive = serializeStableGzip(tar);
+  const zipArchive = serializeStableZip(entries);
   validateUstarInventory(archive, { package: name, files: inventory });
   const digest = createHash('sha256').update(archive).digest('hex');
-  return { archive, inventory: `${JSON.stringify({ package: name, files: inventory }, null, 2)}\n`, digest: `${digest}  ${name}.tar.gz\n` };
+  const zipDigest = createHash('sha256').update(zipArchive).digest('hex');
+  return { archive, zipArchive, inventory: `${JSON.stringify({ package: name, files: inventory }, null, 2)}\n`, digest: `${digest}  ${name}.tar.gz\n`, zipDigest: `${zipDigest}  ${name}.zip\n` };
 }
 
 export function packageOrCheck({ check = false } = {}) {
   const output = buildPackage();
   if (check) {
-    if (readFileSync(archivePath).compare(output.archive) || readFileSync(inventoryPath, 'utf8') !== output.inventory || readFileSync(digestPath, 'utf8') !== output.digest) throw new Error('deterministic archive, inventory, or digest is stale; run npm run package.');
+    if (readFileSync(archivePath).compare(output.archive) || readFileSync(zipPath).compare(output.zipArchive) || readFileSync(inventoryPath, 'utf8') !== output.inventory || readFileSync(digestPath, 'utf8') !== output.digest || readFileSync(zipDigestPath, 'utf8') !== output.zipDigest) throw new Error('deterministic archives, inventory, or digests are stale; run npm run package.');
   } else {
     mkdirSync(dist, { recursive: true });
     writeFileSync(archivePath, output.archive);
+    writeFileSync(zipPath, output.zipArchive);
     writeFileSync(inventoryPath, output.inventory);
     writeFileSync(digestPath, output.digest);
+    writeFileSync(zipDigestPath, output.zipDigest);
   }
   console.log('Deterministic archive, inventory, and digest are current.');
 }

@@ -1,0 +1,85 @@
+{
+  "package": "voicedot-agent-plugin-0.2.0",
+  "files": [
+    {
+      "path": ".codex-plugin/plugin.json",
+      "bytes": 6638,
+      "sha256": "beafa84734b772f36fc662fb622dbfe91fea32cbc0822aa68960c64ea815e513"
+    },
+    {
+      "path": ".mcp.json",
+      "bytes": 126,
+      "sha256": "924abbfea9612e537cf7a2a1517bdf19a3fc30edfab4081665ebb6bda38320b0"
+    },
+    {
+      "path": "adapters/claude-code/.claude-plugin/plugin.json",
+      "bytes": 249,
+      "sha256": "cd4b4d50dbafc953773b89d40d86cbd6260ac816c00bb58a9c63e6f069f2e5c9"
+    },
+    {
+      "path": "adapters/claude-code/.mcp.json",
+      "bytes": 115,
+      "sha256": "3e40dc21b6012ebdee434c8d3dec99cb591b5f0fe7474f1543c74619f34335ee"
+    },
+    {
+      "path": "adapters/claude-code/skills/review-voicedot-feedback/references/markdown-contract.md",
+      "bytes": 714,
+      "sha256": "066b6c78bf5e89e63b138e120d4caba72cb1bb2b588543e413cc87813a6f3774"
+    },
+    {
+      "path": "adapters/claude-code/skills/review-voicedot-feedback/references/tool-and-workflow-reference.md",
+      "bytes": 1600,
+      "sha256": "f32511639aae73e5b715e5f7d6a6ffbb54da1744072df0c46d8bef55664eee2a"
+    },
+    {
+      "path": "adapters/claude-code/skills/review-voicedot-feedback/SKILL.md",
+      "bytes": 4348,
+      "sha256": "7fe05a00fabb6c4df6c6fd36dbfbf8da47853dfa49c95b617d73b4ffc723fceb"
+    },
+    {
+      "path": "assets/icon.png",
+      "bytes": 20566,
+      "sha256": "394e66a4fdaadec8465e4fc432e6f79aebd7a4cd9e3202c209a58bda30e89852"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 674,
+      "sha256": "7770a7b0bab86da3448bb7fe0a21b328c3df844417261515b891793c2d9c9948"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1065,
+      "sha256": "ea21334798ed9a1cb7a245d80b68c06abe76ad2a4d7ab812ed7b0750cdba7333"
+    },
+    {
+      "path": "mcp.json",
+      "bytes": 198,
+      "sha256": "cfb29052ba0d79ff23a60a3f4ae261172aba63aab2e7c10b767e675362ffa2dc"
+    },
+    {
+      "path": "plugin.json",
+      "bytes": 6673,
+      "sha256": "fda0380ecc881d8a5e7b19a729da59bd9f3f7a3299ff6b3330a5555ffd744f7c"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1468,
+      "sha256": "52289c072afe50b1ca5cdb6b4653900f0658899670a3d9c8b801b711f9ec294e"
+    },
+    {
+      "path": "skills/review-voicedot-feedback/references/markdown-contract.md",
+      "bytes": 714,
+      "sha256": "066b6c78bf5e89e63b138e120d4caba72cb1bb2b588543e413cc87813a6f3774"
+    },
+    {
+      "path": "skills/review-voicedot-feedback/references/tool-and-workflow-reference.md",
+      "bytes": 1600,
+      "sha256": "f32511639aae73e5b715e5f7d6a6ffbb54da1744072df0c46d8bef55664eee2a"
+    },
+    {
+      "path": "skills/review-voicedot-feedback/SKILL.md",
+      "bytes": 4348,
+      "sha256": "7fe05a00fabb6c4df6c6fd36dbfbf8da47853dfa49c95b617d73b4ffc723fceb"
+    }
+  ]
+}
