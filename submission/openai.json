@@ -2,10 +2,66 @@
   "platform": "OpenAI",
   "status": "non-submitted",
   "why": "Prepare the VoiceDot 0.2.0 public submission for Good Sheet Sp z o.o. with read access and optional resolving and replying. An existing 0.1.1 draft was inspected; no new upload or submission was made.",
-  "pageOrSourceBlocker": {"kind": "verified-page", "source": "https://developers.openai.com/plugins/deploy/submission", "reason": "Official submission guidance establishes portal materials, the required role and identity boundary, domain challenge, country, release notes, prompt cases, and final attestation."},
-  "fields": [{"name": "listing, logo, skills, starter prompts, country availability and release notes", "status": "prepared-locally", "reason": "Canonical plugin.json contains the listing, square brand asset, three starter prompts, all-country availability and no-commerce declaration."}, {"name": "eight review test cases", "status": "draft-unrun", "reason": "Five positive and three negative cases are supplied. Authenticated clean-client replay and a real demo video still require the synthetic reviewer environment."}, {"name": "public website, support and privacy content", "status": "deployment-pending", "reason": "Landing changes add direct support contact and explain optional MCP actions and data sharing. Public copy must be verified after deployment."}, {"name": "business identity and portal access", "status": "observed-in-portal", "reason": "The existing draft in the Holy organization selects Business — Good Sheet Sp z o.o. The authenticated submission form is accessible; final authorization and attestation remain with the owner."}, {"name": "OAuth and domain challenge", "status": "verification-pending", "reason": "The existing draft has a blank MCP URL, No Auth selected and an unverified domain. Configure and verify the actual deployed OAuth server before submission."}, {"name": "final attestation", "status": "owner-only", "reason": "The legal owner reviews and performs the final portal attestation."}],
-  "sharedData": ["candidate.name", "candidate.version", "candidate.description", "candidate.repository", "candidate.archiveSha256", "catalog.caseIds"],
-  "preApprovalChecks": ["immutableCandidate", "logo", "website", "supportUrl", "privacyUrl", "termsUrl", "country", "reviewerAccess", "cleanClientEvidence", "productionEvidence"],
-  "result": {"status": "blocked", "claim": "Local submission materials are prepared; no portal upload or submission has been made."},
-  "recovery": "Complete deployment verification, synthetic reviewer access, clean-client replays, real demo recording and immutable release provenance; then complete OAuth and domain verification for the existing portal candidate. The owner performs legal attestations."
+  "pageOrSourceBlocker": {
+    "kind": "verified-page",
+    "source": "https://developers.openai.com/plugins/deploy/submission",
+    "reason": "Official submission guidance establishes portal materials, the required role and identity boundary, domain challenge, country, release notes, prompt cases, and final attestation."
+  },
+  "fields": [
+    {
+      "name": "listing, logo, skills, starter prompts, country availability and release notes",
+      "status": "prepared-locally",
+      "reason": "Canonical plugin.json contains the listing, square brand asset, three starter prompts, all-country availability and no-commerce declaration."
+    },
+    {
+      "name": "eight review test cases",
+      "status": "draft-unrun",
+      "reason": "Five positive and three negative cases use English Atlas Checkout. Real reviewer OAuth succeeded with six scopes; authenticated clean-client case replays and a real demo video remain pending."
+    },
+    {
+      "name": "public website, support and privacy content",
+      "status": "production-verified",
+      "reason": "Website PRs #14 and #15 are deployed. Public listing URLs, direct support contact, optional MCP actions, data-sharing disclosure and the September 29, 2026 privacy update date were verified. The future site replacement needs the same disclosure."
+    },
+    {
+      "name": "business identity and portal access",
+      "status": "observed-in-portal",
+      "reason": "The existing draft in the Holy organization selects Business \u2014 Good Sheet Sp z o.o. The authenticated submission form is accessible; final authorization and attestation remain with the owner."
+    },
+    {
+      "name": "OAuth and domain challenge",
+      "status": "verification-pending",
+      "reason": "The protected MCP URL and OAuth were entered in the existing draft. Real reviewer OAuth succeeded in Codex CLI. Final saved portal configuration, domain ownership verification and the tool scan remain pending."
+    },
+    {
+      "name": "final attestation",
+      "status": "owner-only",
+      "reason": "The legal owner reviews and performs the final portal attestation."
+    }
+  ],
+  "sharedData": [
+    "candidate.name",
+    "candidate.version",
+    "candidate.description",
+    "candidate.repository",
+    "candidate.archiveSha256",
+    "catalog.caseIds"
+  ],
+  "preApprovalChecks": [
+    "immutableCandidate",
+    "logo",
+    "website",
+    "supportUrl",
+    "privacyUrl",
+    "termsUrl",
+    "country",
+    "reviewerAccess",
+    "cleanClientEvidence",
+    "productionEvidence"
+  ],
+  "result": {
+    "status": "blocked",
+    "claim": "Local submission materials are prepared; no portal upload or submission has been made."
+  },
+  "recovery": "Load the authenticated reviewer client and complete all eight real case replays, production write verification, real demo recording and immutable release provenance; then import the final materials and complete OAuth, tool scan and domain verification in the existing portal candidate. The owner performs legal attestations."
 }

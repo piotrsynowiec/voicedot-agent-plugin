@@ -7,7 +7,30 @@
     "inventory": "dist/voicedot-agent-plugin-${plugin.version}.files.json",
     "catalog": "reviewer/review-catalog-v1.json"
   },
-  "requiredOwnerInputs": ["immutableCandidate", "logo", "website", "supportUrl", "privacyUrl", "termsUrl", "country", "reviewerAccess", "cleanClientEvidence", "productionEvidence"],
-  "preparedInputs": ["logo", "country"],
-  "outstandingChecks": ["immutableCandidate", "website", "supportUrl", "privacyUrl", "termsUrl", "reviewerAccess", "cleanClientEvidence", "productionEvidence"]
+  "requiredOwnerInputs": [
+    "immutableCandidate",
+    "logo",
+    "website",
+    "supportUrl",
+    "privacyUrl",
+    "termsUrl",
+    "country",
+    "reviewerAccess",
+    "cleanClientEvidence",
+    "productionEvidence"
+  ],
+  "preparedInputs": [
+    "logo",
+    "country",
+    "website",
+    "supportUrl",
+    "privacyUrl",
+    "termsUrl",
+    "reviewerAccess"
+  ],
+  "outstandingChecks": [
+    "immutableCandidate",
+    "cleanClientEvidence",
+    "productionEvidence"
+  ]
 }

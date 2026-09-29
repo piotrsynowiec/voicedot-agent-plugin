@@ -29,28 +29,42 @@ server, including irreversible visitor-facing reply sends.
 Backend tests are separate from clean-client review replays. No successful
 authenticated review replay or demo recording is claimed by this repository.
 
+## Verified on 2026-09-30
+
+- Backend PR #37 and website PR #14 are merged and deployed. The production
+  server includes the corrected send annotations and supports the isolated
+  reviewer's resolving and replying scopes.
+- Website PR #15 is merged and deployed. The public privacy policy shows
+  September 29, 2026, the date the MCP disclosure was added.
+- All four public listing URLs were checked. The website describes optional
+  actions, MCP data sharing and direct support contact.
+- A real Codex CLI OAuth login succeeded for the dedicated reviewer with the
+  six intended scopes. The configured client still needs to load its tools
+  and complete all eight review replays; successful login alone is not replay
+  evidence. Private credentials and runtime details remain outside this repo.
+- The future `voicedot-site` replacement needs the same MCP disclosure before
+  switching the public website. Its current privacy documents remain drafts;
+  website replacement is not part of these completed deployments.
+
 ## Remaining publication steps
 
-1. Deploy and verify the website's optional-action description, direct support
-   contact and MCP privacy disclosure. Verify all four public listing URLs.
-2. Deploy the corrected send annotations and synthetic reviewer scope support.
-   Complete reviewer setup in the private runtime. Keep credentials and access
-   instructions in the portal's secure fields, never in this repository or ZIP.
-3. Replay the eight cases with a fresh authenticated client against only the
-   synthetic projects. Record actual tool calls and outcomes. Restore the
-   synthetic pins afterwards so the cases remain reproducible.
-4. Record a real video showing the submitted client, evidence review, page-pin
+1. Replay the eight cases with a fresh authenticated client against only the
+   synthetic projects. Use the English Atlas Checkout page for every case.
+   Record actual tool calls and outcomes. Restore the synthetic pins afterwards
+   so the cases remain reproducible. Complete production write verification.
+2. Record a real video showing the submitted client, evidence review, page-pin
    closure and a preview followed by an explicitly confirmed reply. Host it
    where the review team can watch without requesting access. Set the real
    `review.demo_recording_url` in `plugin.json`, then regenerate and rebuild.
-5. Freeze the final commit, annotated version tag and exact archive digests.
-6. Import the JSON or upload the ZIP using the workflow presented by the
+3. Freeze the final commit, annotated version tag and exact archive digests.
+4. Import the JSON or upload the ZIP using the workflow presented by the
    existing portal. Check saved metadata, skills, starter prompts, all-country
    availability, no-commerce declaration and version. Upload actual icons.
-7. Configure the existing server with OAuth, verify domain ownership, scan all
+   Enter reviewer credentials only in the portal's protected fields.
+5. Configure the existing server with OAuth, verify domain ownership, scan all
    tools and reconcile every annotation with deployed behavior. Never select
    No Auth for the protected VoiceDot endpoint.
-8. The legal owner reviews the attestations and submits the complete draft.
+6. The legal owner reviews the attestations and submits the complete draft.
    Publication is a separate action after approval.
 
 See [OpenAI submission documentation](https://developers.openai.com/plugins/deploy/submission).
