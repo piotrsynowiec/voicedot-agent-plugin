@@ -35,8 +35,9 @@ Do not submit or publish this plugin until the requested MCP project-creation
 and widget-installation workflow is implemented, tested and reflected in the
 final package, review cases, reviewer access and public policy coverage.
 Version 0.3.0 includes the existing-account creation and installation workflow
-as a release candidate. First-project onboarding is deferred; production and
-reviewer evidence must be completed before final submission.
+as a release candidate, with the existing-account tools deployed and runtime
+checks passed. First-project onboarding is deferred; actual website and reviewer
+case evidence must be completed before final submission.
 
 The owner will record the final video and complete the final private/legal
 fields. Preparation continues locally. See [preparation checklist](preparation-checklist.md)

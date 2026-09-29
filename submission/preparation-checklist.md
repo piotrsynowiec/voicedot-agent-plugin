@@ -1,7 +1,7 @@
 # Przygotowanie zgłoszenia VoiceDot
 
 Stan: 30 września 2026. **Zgłoszenie i publikacja wstrzymane decyzją Piotra.**
-Pakiet 0.3.0 jest kandydatem z przepływem tworzenia i instalacji dla istniejącego konta; wdrożenie i rzeczywiste potwierdzenie pingu są wymagane przed recenzją.
+Pakiet 0.3.0 jest kandydatem. Przepływ tworzenia i instalacji dla istniejącego konta jest wdrożony; rzeczywista próba witryny i izolowany scenariusz recenzji pozostają do ukończenia.
 
 Podstawa procesu: [instrukcja OpenAI](https://developers.openai.com/plugins/deploy/submission).
 Wymagane są sprawdzone materiały recenzji, działający dostęp testowy, nagranie,
@@ -28,9 +28,9 @@ Przyjęcie do recenzji i publikacja po akceptacji są osobnymi krokami.
 | Cztery adresy publiczne | Obecna strona sprawdzona | Codex zweryfikuje ponownie przed finalnym pakietem |
 | Nowa strona voicedot-site | Dokumenty są szkicami, ujawnienie MCP niepełne | Uzupełnienie i osobny odbiór przed podmianą strony |
 | Odczyt i zapis feedbacku | Backend wdrożony | Faktyczne scenariusze w kliencie recenzenta |
-| Tworzenie projektów przez MCP | Kandydat implementacji dla istniejącego konta | Wdrożenie i testy istniejącego konta; nowe konta są odłożone |
-| Instalacja snippetem | Istnieje generator w backendzie | Agent ma dostać prawdziwy snippet i sprawdzić instalację |
-| Uprawnienia OAuth | Obecne dwa uprawnienia zapisu działają | Osobna zgoda na tworzenie; bez automatycznej zmiany starych grantów |
+| Tworzenie projektów przez MCP | Wdrożone dla istniejącego konta, backend CI i 101 testów przeszły | Właściciel włącza projects:create w istniejącym połączeniu; próba w kliencie. Nowe konta odłożone |
+| Instalacja snippetem | MCP zwraca prawdziwy snippet, instrukcję i token weryfikacji | Próba na witrynie: rzeczywisty browser ping i readyForFeedback=true |
+| Uprawnienia OAuth | Dostępne trzy osobne uprawnienia zapisu | Włączanie projects:create działa na dotychczasowym tokenie; starych grantów nie zmieniono automatycznie |
 | Recenzent | Istniejący odczyt i zapis zalogowany przez OAuth | Nowy scenariusz tworzenia wymaga działającego, izolowanego dostępu testowego |
 | Pięć scenariuszy pozytywnych i trzy negatywne | Draft dla istniejących narzędzi | Codex dostosuje i przejdzie je na końcowej wersji |
 | Film | Nienagrany | Ty nagrywasz po próbie przygotowanej przez Codex |

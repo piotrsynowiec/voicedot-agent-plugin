@@ -10,8 +10,8 @@
   "fields": [
     {
       "name": "MCP project creation and widget installation",
-      "status": "implementation-pending",
-      "reason": "Owner explicitly placed submission on hold until agents can create projects on eligible plans and install the returned widget snippet. Existing-account creation is the current release scope; new-account onboarding is explicitly deferred. The new tools remain a release candidate until deployment and real ping verification succeed."
+      "status": "production-verified",
+      "reason": "Existing-account creation and installation tools are deployed. Active backend/MCP catalogs expose all three tools, the idempotency migration is applied, runtime health passed, and 101 focused backend tests plus package CI passed. Existing grants retain their old scopes; the owner must enable projects:create in Manage access and run the website flow. New-account onboarding is deferred. Reviewer creation access and the real demo remain pending."
     },
     {
       "name": "listing, logo, skills, starter prompts, country availability and release notes",
