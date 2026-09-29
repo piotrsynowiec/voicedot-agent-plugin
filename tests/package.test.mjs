@@ -36,6 +36,9 @@ test('archive, inventory, and digest are reproducible and use a stable safe file
   assert.deepEqual(inventory.files.map((file) => file.path), [...inventory.files.map((file) => file.path)].sort((left, right) => left.localeCompare(right)));
   assert.ok(inventory.files.every((file) => !file.path.includes('..') && !file.path.startsWith('/') && file.path !== 'AGENTS.md'));
   assert.ok(inventory.files.every((file) => !['scripts/', 'tests/', 'reviewer/', '.github/', 'node_modules/', 'dist/'].some((prefix) => file.path.startsWith(prefix))));
+  for (const required of ['plugin.json', 'mcp.json', '.codex-plugin/plugin.json', '.mcp.json', 'assets/icon.png', 'skills/review-voicedot-feedback/SKILL.md']) {
+    assert.ok(inventory.files.some((file) => file.path === required), `missing required upload file: ${required}`);
+  }
   assert.match(first.digest, new RegExp(`^[a-f0-9]{64}  voicedot-agent-plugin-${json('plugin.json').version.replaceAll('.', '\\.')}\\.tar\\.gz\\n$`));
   const parsed = parseUstar(first.archive);
   assert.deepEqual(parsed.map(({ path }) => path), inventory.files.map(({ path }) => path));
@@ -88,6 +91,7 @@ test('canonical skill is the sole hand-edited review workflow source', () => {
   const skill = readFileSync(resolve(root, 'skills/review-voicedot-feedback/SKILL.md'), 'utf8');
   assert.match(skill, /^---\nname: review-voicedot-feedback\n/m);
   assert.match(skill, /untrusted evidence/i);
-  assert.match(skill, /read-only/i);
+  assert.match(skill, /feedback:resolve/);
+  assert.match(skill, /feedback:reply/);
   validatePackage();
 });

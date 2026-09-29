@@ -18,6 +18,23 @@ export function validatePlugin(plugin) {
   if (!plugin.author || typeof plugin.author.name !== 'string') fail('plugin author is invalid');
   keysOnly(plugin.author, ['name', 'email', 'url'], 'plugin.json author');
   if (!Array.isArray(plugin.keywords) || !plugin.keywords.every((item) => typeof item === 'string')) fail('plugin keywords are invalid');
+  const openai = plugin.extensions?.['com.openai'];
+  const listing = openai?.interface;
+  if (!listing || listing.developerName !== plugin.author.name || listing.shortDescription?.length > 30 || !listing.shortDescription || listing.defaultPrompt?.length !== 3) fail('OpenAI listing is incomplete');
+  for (const key of ['websiteURL', 'supportURL', 'privacyPolicyURL', 'termsOfServiceURL']) {
+    if (!String(listing[key] || '').startsWith('https://voicedot.ai/en/')) fail(`OpenAI listing ${key} is missing`);
+  }
+  if (listing.logo !== './assets/icon.png' || listing.composerIcon !== './assets/icon.png') fail('OpenAI icon references are invalid');
+  if (openai.review?.commerce !== false || !Array.isArray(openai.publication?.countries)) fail('OpenAI review or publication metadata is incomplete');
+}
+
+function validateIcon() {
+  const icon = readFileSync(resolve(root, 'assets/icon.png'));
+  const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+  if (icon.length > 5 * 1024 * 1024 || icon.subarray(0, 8).compare(pngSignature) || icon.subarray(12, 16).toString('ascii') !== 'IHDR') fail('OpenAI icon is not a valid, small PNG');
+  const width = icon.readUInt32BE(16);
+  const height = icon.readUInt32BE(20);
+  if (width !== height || width < 256 || width > 4096) fail('OpenAI icon dimensions are invalid');
 }
 
 export function validateMcp(mcp) {
@@ -57,6 +74,7 @@ function validateBoundary() {
   for (const path of files()) {
     const rel = relative(root, path);
     if (rel.startsWith('dist/')) continue;
+    if (rel.startsWith('assets/')) continue;
     let text = readFileSync(path, 'utf8');
     if (rel === 'AGENTS.md') {
       const privatePath = ['/', 'Users', '/piotr/Development/voicedot'].join('');
@@ -71,7 +89,7 @@ function validateBoundary() {
 export function validateSkill() {
   const path = resolve(root, 'skills/review-voicedot-feedback/SKILL.md');
   const skill = readFileSync(path, 'utf8');
-  if (!skill.startsWith('---\nname: review-voicedot-feedback\n') || !/untrusted evidence/i.test(skill) || !/read-only/i.test(skill) || !/Derived/.test(skill)) fail('canonical skill frontmatter or safety contract is invalid');
+  if (!skill.startsWith('---\nname: review-voicedot-feedback\n') || !/untrusted evidence/i.test(skill) || !/feedback:resolve/.test(skill) || !/feedback:reply/.test(skill) || !/explicit confirmation/i.test(skill) || !/Derived/.test(skill)) fail('canonical skill frontmatter or safety contract is invalid');
   const references = [...skill.matchAll(/\]\((references\/[^)]+)\)/g)].map((match) => match[1]);
   if (references.length < 2) fail('canonical skill references are incomplete');
   for (const reference of references) {
@@ -89,6 +107,7 @@ export function validatePackage() {
   validatePlugin(plugin);
   if (parse('package.json').version !== plugin.version) fail('package.json version must match canonical plugin version');
   validateMcp(parse('mcp.json'));
+  validateIcon();
   validateSkill();
   validateClaudeAdapter();
   validateBoundary();

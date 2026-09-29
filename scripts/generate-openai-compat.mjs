@@ -7,27 +7,15 @@ const readJson = (path) => JSON.parse(readFileSync(resolve(root, path), 'utf8'))
 const writeJson = (path, value) => writeFileSync(resolve(root, path), `${JSON.stringify(value, null, 2)}\n`);
 
 export function renderCompatibility(plugin, mcp) {
-  const { $schema, ...metadata } = plugin;
+  const { $schema, extensions, ...metadata } = plugin;
+  const { interface: interfaceMetadata = {}, ...openaiMetadata } = extensions?.['com.openai'] || {};
   return {
     plugin: {
       ...metadata,
+      extensions: { ...extensions, 'com.openai': openaiMetadata },
       skills: './skills/',
       mcpServers: './.mcp.json',
-      interface: {
-        displayName: 'VoiceDot Feedback',
-        shortDescription: 'Turn product feedback into traceable briefs.',
-        longDescription: 'Read authorized VoiceDot feedback and produce clearly sourced Markdown evidence briefs.',
-        developerName: 'VoiceDot',
-        category: 'Productivity',
-        capabilities: ['Read-only MCP', 'Evidence briefs'],
-        websiteURL: 'https://voicedot.ai',
-        defaultPrompt: [
-          'Review VoiceDot feedback from the last 7 days.',
-          'Create a brief for feedback on this page.',
-          'Review this VoiceDot pin thread.'
-        ],
-        brandColor: '#6C5CE7'
-      }
+      interface: interfaceMetadata
     },
     mcp: { mcpServers: mcp.mcpServers }
   };

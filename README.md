@@ -1,6 +1,22 @@
 # VoiceDot Agent Plugin
 
-Portable, read-only MCP metadata and a canonical skill for reviewing authorized VoiceDot feedback. It connects to `https://mcp.voicedot.ai/mcp`; OAuth and project authorization are discovered and enforced by the production service.
+Portable MCP metadata and a canonical skill for reviewing authorized VoiceDot feedback. It connects to `https://mcp.voicedot.ai/mcp`; OAuth and project authorization are discovered and enforced by the production service. Closing page pins, resolving discussions, and replying need separate optional write permissions. Closing a page pin hides it from the live page without resolving its discussion. Visitor-facing replies require an exact preview and explicit confirmation.
+
+## Create and install for an existing account
+
+With an eligible plan and the separate `projects:create` permission, the agent
+can call `create_project` to add a project to the existing owned workspace.
+Manage access enables this permission for an existing OAuth connection without
+another login. No account signup, plan purchase or billing change occurs.
+
+The creation result or `get_project_installation` provides the public snippet,
+installation steps and repository binding. The coding agent edits the intended
+website with its own authorized tools, opens the exact HTTPS origin in a real
+browser and calls `get_project_installation_status`. Only `readyForFeedback=true`
+confirms a fresh accepted backend ping for that project, origin and port.
+
+OpenAI submission and publication remain on hold while final deployment,
+reviewer access, demo and owner-provided fields are completed.
 
 ## Source of truth
 
@@ -17,4 +33,4 @@ npm run validate
 npm run package
 ```
 
-The release archive, inventory, and SHA-256 digest are in `dist/`. The Claude adapter carries the same read-only remote MCP endpoint, but this repository does not claim a Claude marketplace listing or authenticated client smoke.
+The release archives, inventory, and SHA-256 digests are in `dist/`. The Claude adapter carries the same remote MCP endpoint, but this repository does not claim a Claude marketplace listing or authenticated client smoke. OpenAI submission requires the ZIP archive, live reviewer access, a verified demo recording, and portal checks.

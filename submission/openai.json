@@ -1,11 +1,72 @@
 {
   "platform": "OpenAI",
   "status": "non-submitted",
-  "why": "Record documented submission boundaries without entering the owner portal or completing its attestation.",
-  "pageOrSourceBlocker": {"kind": "verified-page", "source": "https://developers.openai.com/plugins/deploy/submission", "reason": "Official submission guidance establishes portal materials, the required role and identity boundary, domain challenge, country, release notes, prompt cases, and final attestation."},
-  "fields": [{"name": "listing information, MCP server details, skills, starter prompts, test cases, country availability, and policy attestations", "status": "owner-blocked", "reason": "Documented portal materials and owner inputs are absent."}, {"name": "Apps Management write access", "status": "delegable-prerequisite", "reason": "The documented submitter permission can be granted to a submitter; no access change is performed locally."}, {"name": "domain challenge", "status": "owner-blocked", "reason": "The configured challenge is not production evidence."}, {"name": "final attestation", "status": "owner-only", "reason": "Never perform or imply this action locally."}],
-  "sharedData": ["candidate.name", "candidate.version", "candidate.description", "candidate.repository", "candidate.archiveSha256", "catalog.caseIds"],
-  "preApprovalChecks": ["immutableCandidate", "logo", "website", "supportUrl", "privacyUrl", "termsUrl", "country", "reviewerAccess", "cleanClientEvidence", "productionEvidence"],
-  "result": {"status": "blocked", "claim": "No OpenAI submission has been prepared or made."},
-  "recovery": "Owner supplies the documented materials and separately performs any role, identity, challenge, and final-attestation action."
+  "why": "Prepare the VoiceDot 0.3.0 public submission for Good Sheet Sp z o.o. with read access and optional resolving and replying. An existing 0.1.1 draft was inspected; no new upload or submission was made.",
+  "pageOrSourceBlocker": {
+    "kind": "verified-page",
+    "source": "https://developers.openai.com/plugins/deploy/submission",
+    "reason": "Official submission guidance establishes portal materials, the required role and identity boundary, domain challenge, country, release notes, prompt cases, and final attestation."
+  },
+  "fields": [
+    {
+      "name": "MCP project creation and widget installation",
+      "status": "production-verified",
+      "reason": "Existing-account creation and installation tools are deployed. Active backend/MCP catalogs expose all three tools, the idempotency migration is applied, runtime health passed, and 101 focused backend tests plus package CI passed. Existing grants retain their old scopes; the owner must enable projects:create in Manage access and run the website flow. New-account onboarding is deferred. Reviewer creation access and the real demo remain pending."
+    },
+    {
+      "name": "listing, logo, skills, starter prompts, country availability and release notes",
+      "status": "prepared-locally",
+      "reason": "Canonical plugin.json contains the listing, square brand asset, three starter prompts, all-country availability and no-commerce declaration."
+    },
+    {
+      "name": "eight review test cases",
+      "status": "draft-unrun",
+      "reason": "Five positive and three negative cases use English Atlas Checkout. Real reviewer OAuth succeeded with six scopes; authenticated clean-client case replays and a real demo video remain pending."
+    },
+    {
+      "name": "public website, support and privacy content",
+      "status": "production-verified",
+      "reason": "Website PRs #14 and #15 are deployed. Public listing URLs, direct support contact, optional MCP actions, data-sharing disclosure and the September 29, 2026 privacy update date were verified. The future site replacement needs the same disclosure."
+    },
+    {
+      "name": "business identity and portal access",
+      "status": "observed-in-portal",
+      "reason": "The existing draft in the Holy organization selects Business — Good Sheet Sp z o.o. The authenticated submission form is accessible; final authorization and attestation remain with the owner."
+    },
+    {
+      "name": "OAuth and domain challenge",
+      "status": "verification-pending",
+      "reason": "The protected MCP URL and OAuth were entered in the existing draft. Real reviewer OAuth succeeded in Codex CLI. Final saved portal configuration, domain ownership verification and the tool scan remain pending."
+    },
+    {
+      "name": "final attestation",
+      "status": "owner-only",
+      "reason": "The legal owner reviews and performs the final portal attestation."
+    }
+  ],
+  "sharedData": [
+    "candidate.name",
+    "candidate.version",
+    "candidate.description",
+    "candidate.repository",
+    "candidate.archiveSha256",
+    "catalog.caseIds"
+  ],
+  "preApprovalChecks": [
+    "immutableCandidate",
+    "logo",
+    "website",
+    "supportUrl",
+    "privacyUrl",
+    "termsUrl",
+    "country",
+    "reviewerAccess",
+    "cleanClientEvidence",
+    "productionEvidence"
+  ],
+  "result": {
+    "status": "blocked",
+    "claim": "Preparation only. Owner explicitly holds submission and publication until MCP project creation and widget installation are complete; no final upload or submission has been made."
+  },
+  "recovery": "Complete the requested project-creation workflow, entitlement and OAuth checks, safe reviewer access and real client replays. Update truthful listing, cases, release notes and policy coverage, then help the owner record the final video and complete private/legal fields. Keep submission on hold until the requested feature is verified."
 }

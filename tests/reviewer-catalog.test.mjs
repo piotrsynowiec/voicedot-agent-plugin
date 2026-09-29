@@ -11,7 +11,7 @@ test('public reviewer catalog has the exact synthetic P1-P5/N1-N3 contract', () 
   assert.deepEqual(catalog.cases.map(({ id }) => id), ['P1', 'P2', 'P3', 'P4', 'P5', 'N1', 'N2', 'N3']);
   for (const item of catalog.cases) {
     assert.deepEqual(Object.keys(item), ['id', 'projection', 'outcome', 'readOnly']);
-    assert.equal(item.readOnly, true);
+    assert.equal(item.readOnly, !['P4', 'P5'].includes(item.id));
     assert.ok(item.projection && item.outcome);
   }
   assert.match(readFileSync(resolve(root, 'reviewer/README.md'), 'utf8'), /skills\/review-voicedot-feedback\/SKILL\.md/);

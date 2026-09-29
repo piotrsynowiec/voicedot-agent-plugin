@@ -17,6 +17,7 @@ export function deriveCandidate() {
   const inventory = parse(`dist/${packageName}.files.json`);
   const catalog = parse('reviewer/review-catalog-v1.json');
   const archive = readFileSync(resolve(root, `dist/${packageName}.tar.gz`));
+  const zip = readFileSync(resolve(root, `dist/${packageName}.zip`));
   return {
     name: plugin.name,
     version: plugin.version,
@@ -26,6 +27,7 @@ export function deriveCandidate() {
     license: plugin.license,
     transport: mcp.mcpServers.voicedot.type,
     archiveSha256: createHash('sha256').update(archive).digest('hex'),
+    zipSha256: createHash('sha256').update(zip).digest('hex'),
     inventoryPaths: inventory.files.map(({ path }) => path),
     caseIds: catalog.cases.map(({ id }) => id),
   };
@@ -58,6 +60,10 @@ function assertCard(card, filename) {
 export function validateSubmissionMaterials() {
   const preflight = parse('submission/preflight.json');
   if (preflight.marketplaceState !== 'non-submitted' || JSON.stringify(preflight.requiredOwnerInputs) !== JSON.stringify(ownerInputs)) fail('preflight owner blockers are incomplete');
+  if (!Array.isArray(preflight.preparedInputs) || !Array.isArray(preflight.outstandingChecks)
+    || new Set([...preflight.preparedInputs, ...preflight.outstandingChecks]).size !== ownerInputs.length
+    || ownerInputs.some((input) => ![...preflight.preparedInputs, ...preflight.outstandingChecks].includes(input))
+    || preflight.preparedInputs.some((input) => preflight.outstandingChecks.includes(input))) fail('preflight evidence partition is invalid');
   const plugin = parse('plugin.json');
   for (const source of Object.values(preflight.canonicalSources)) {
     const resolved = source.replace('${plugin.version}', plugin.version);
@@ -67,7 +73,7 @@ export function validateSubmissionMaterials() {
   for (const filename of cardFiles) assertCard(parse(`submission/${filename}`), filename);
   const candidate = deriveCandidate();
   if (candidate.caseIds.join() !== 'P1,P2,P3,P4,P5,N1,N2,N3' || !candidate.inventoryPaths.includes('plugin.json')) fail('canonical candidate derivation is incomplete');
-  return { marketplaceState: preflight.marketplaceState, blockers: ownerInputs, candidate, cards: cardFiles.map((filename) => parse(`submission/${filename}`)) };
+  return { marketplaceState: preflight.marketplaceState, preparedInputs: preflight.preparedInputs, blockers: preflight.outstandingChecks, candidate, cards: cardFiles.map((filename) => parse(`submission/${filename}`)) };
 }
 
 export function printStatus() {

@@ -1,8 +1,8 @@
 {
   "name": "voicedot",
-  "version": "0.1.1",
-  "description": "Review authorized VoiceDot feedback and create traceable Markdown briefs without changing product data.",
+  "version": "0.3.0",
+  "description": "Create and install VoiceDot projects in an existing workspace, review authorized feedback, and optionally close pins, resolve discussions, or reply.",
   "author": {
-    "name": "VoiceDot"
+    "name": "Good Sheet Sp z o.o."
   }
 }
