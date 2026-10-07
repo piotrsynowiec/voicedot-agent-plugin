@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 - 2026-10-07
+
+- Describe creating a project in an existing owned workspace with the separate `projects:create` permission, durable retry protection, and widget installation verification for an exact HTTPS origin and port (`create_project`, `get_project_installation`, `get_project_installation_status`).
+- Run every reviewer case in English on the synthetic Atlas Checkout page; marketplace submission stays on hold.
+
 ## 0.2.0 - 2026-09-29
 
 - Align the canonical skill and OpenAI listing with VoiceDot's optional page-pin status, discussion resolve, and reply tools.
